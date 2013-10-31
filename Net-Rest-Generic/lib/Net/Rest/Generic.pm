@@ -63,17 +63,19 @@ sub AUTOLOAD {
 	my ($key) = $AUTOLOAD =~ /.*::([\w_]+)/o;
 	return if ($key eq 'DESTROY');
 
+	push @{ $self->{chain} }, $key;
+        my $args;
+        if (ref($_[0])) {
+                $args = $_[0];
+        }
+        else {
+                push @{ $self->{chain} }, @_;
+        }
 	if (want('OBJECT') || want('VOID')) {
-		push @{ $self->{chain} }, $key;
-		if (@_ == 1) {
-			push @{ $self->{chain} }, $_[0];
-		}
 		return $self;
 	}
-
-	my $args = ref($_[0]) ? $_[0] : {@_};
-
-	my $url = join('/', @{ $self->{chain} }, $key);
+        
+	my $url = join('/', @{ $self->{chain} });
 	my $method = $self->{mode}   || '';
 	my $scheme = $self->{scheme} || '';
 	my $host   = $self->{host}   || '';
