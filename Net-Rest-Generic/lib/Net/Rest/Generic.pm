@@ -75,7 +75,7 @@ sub AUTOLOAD {
 	if (want('OBJECT') || want('VOID')) {
 		return $self;
 	}
-        
+
 	my $url = join('/', @{ $self->{chain} });
 	my $method = $self->{mode}   || '';
 	my $scheme = $self->{scheme} || '';
@@ -86,7 +86,7 @@ sub AUTOLOAD {
 	return "$method $scheme://$host$port$base$url";
 }
 
-sub meta {
+sub addLabel {
         my ($self, @labels) = @_;
         push @{ $self->{chain} }, @labels;
         return $self;
