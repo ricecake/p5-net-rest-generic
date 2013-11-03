@@ -5,7 +5,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use Want;
-use Net::Rest::Generic::Utillity;
+use Net::Rest::Generic::Utility;
 =head1 NAME
 
 Net::Rest::Generic - The great new Net::Rest::Generic!
