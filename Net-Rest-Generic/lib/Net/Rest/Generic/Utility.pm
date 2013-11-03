@@ -1,4 +1,4 @@
-package Net::Rest::Generic::Utillity;
+package Net::Rest::Generic::Utility;
 
 use 5.006;
 use strict;
