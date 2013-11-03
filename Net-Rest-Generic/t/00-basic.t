@@ -3,11 +3,13 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 use Test::More;
-plan tests => 8;
-
+use Test::Deep;
+plan tests => 10;
+BEGIN{
+	use Data::Dumper;
+	push(@INC, '/home/shane/Downloads/code/github/p5-net-rest-generic/Net-Rest-Generic/lib/');
+}
 use_ok( 'Net::Rest::Generic' ) || print "Bail out!\n";
-
-diag( "Testing Net::Rest::Generic $Net::Rest::Generic::VERSION, Perl $], $^X" );
 
 sub defaults {
 	my $api = Net::Rest::Generic->new();
@@ -28,6 +30,19 @@ sub basics {
 	for my $key (keys %arguments) {
 	    is($arguments{$key}, $api->{$key}, "$key returned expected value");
 	}
+
+	my ($foo, $bar, $baz) = ('one', 'two', 'three');
+	$api->$foo->$bar->$baz;
+	is(scalar(@{$api->{chain}}), '3', 'Chain contains expected number of elements');
+	cmp_deeply(
+		$api->{chain},
+		[
+			'one',
+			'two',
+			'three',
+		],
+		'Chain contacts expected elements in the correct order'
+	);
 }
 
 TODO: {
