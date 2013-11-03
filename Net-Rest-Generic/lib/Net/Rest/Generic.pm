@@ -5,6 +5,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use Want;
+use Net::Rest::Generic::Utillity;
 =head1 NAME
 
 Net::Rest::Generic - The great new Net::Rest::Generic!
@@ -45,7 +46,7 @@ sub new {
 		scheme => 'http',
 	);
 	my $self = {
-		_chain  => [],
+		chain  => [],
 		_params => \%params
 	};
 	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base);
