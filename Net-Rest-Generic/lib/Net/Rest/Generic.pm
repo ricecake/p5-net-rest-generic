@@ -85,6 +85,11 @@ sub AUTOLOAD {
 	return "$method $scheme://$host$port$base$url";
 }
 
+sub meta {
+        my ($self, @labels) = @_;
+        push @{ $self->{chain} }, @labels;
+        return $self;
+}
 
 =head1 AUTHOR
 
