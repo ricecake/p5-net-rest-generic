@@ -5,10 +5,7 @@ use warnings FATAL => 'all';
 use Test::More;
 use Test::Deep;
 plan tests => 10;
-BEGIN{
-	use Data::Dumper;
-	push(@INC, '/home/shane/Downloads/code/github/p5-net-rest-generic/Net-Rest-Generic/lib/');
-}
+
 use_ok( 'Net::Rest::Generic' ) || print "Bail out!\n";
 
 my %arguments = (
