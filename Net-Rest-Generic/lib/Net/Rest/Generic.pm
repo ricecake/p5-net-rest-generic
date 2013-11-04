@@ -5,6 +5,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use Want;
+use URI;
 use Net::Rest::Generic::Utility;
 =head1 NAME
 
@@ -43,16 +44,20 @@ sub new {
 	my ($class, %params) = @_;
 	my %defaults = (
 		mode   => 'get',
-		scheme => 'http',
+		scheme => 'HTTPS',
 	);
 	my $self = {
 		chain  => [],
-		_params => \%params
+		_params => \%params,
 	};
 	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base);
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
+        $self->{uri} = URI->new();
+        $self->{uri}->scheme($self->{scheme});
+        $self->{uri}->host($self->{host});
+        $self->{uri}->port($self->{port}) if exists $self->{port};
 	return bless $self, $class;
 }
 
@@ -63,6 +68,7 @@ sub AUTOLOAD {
 	our $AUTOLOAD;
 	my ($key) = $AUTOLOAD =~ /.*::([\w_]+)/o;
 	return if ($key eq 'DESTROY');
+        print "$key\n";
 
 	push @{ $self->{chain} }, $key;
         my $args;
@@ -76,14 +82,11 @@ sub AUTOLOAD {
 		return $self;
 	}
         
-	my $url = join('/', @{ $self->{chain} });
-	my $method = $self->{mode}   || '';
-	my $scheme = $self->{scheme} || '';
-	my $host   = $self->{host}   || '';
-	my $port = $self->{port} ? ":" . $self->{port}       : '';
-	my $base = $self->{base} ? "/" . $self->{base} . "/" : '';
-
-	return "$method $scheme://$host$port$base$url";
+	my $url = join('/', grep {$_} @{[$self->{base}]}, @{ $self->{chain} });
+        $self->{chain} = [];
+        $self->{uri}->path($url);
+        
+        return Net::Rest::Generic::Utility::_doRestCall($self->{method}, $self->{uri}->as_string;, $args);
 }
 
 sub meta {
