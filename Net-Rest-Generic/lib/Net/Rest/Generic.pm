@@ -79,7 +79,8 @@ sub AUTOLOAD {
 		return $self;
 	}
 
-	my $url = join('/', grep {$_} @{[$self->{base}]}, @{ $self->{chain} });
+        unshift(@{ $self->{chain} }, $self->{base});
+	my $url = join('/', @{ $self->{chain} });
         $self->{chain} = [];
         $self->{uri}->path($url);
         
