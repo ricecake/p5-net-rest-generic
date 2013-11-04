@@ -13,7 +13,8 @@ my %arguments = (
 	scheme => 'https',
 	host   => 'perl.org',
 	port   => '8080',
-	base   => 'version1'
+	base   => 'version1',
+	string => 1,
 );
 
 my $api = Net::Rest::Generic->new(mode => 'post');
