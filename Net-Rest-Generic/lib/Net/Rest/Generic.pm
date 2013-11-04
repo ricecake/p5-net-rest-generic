@@ -39,16 +39,15 @@ if you don't export anything, such as for a purely object-oriented module.
 =head1 SUBROUTINES/METHODS
 
 =cut
-
 sub new {
-	my ($class, %params) = @_;
+	my $class = shift;
 	my %defaults = (
 		mode   => 'get',
 		scheme => 'HTTPS',
 	);
 	my $self = {
 		chain  => [],
-		_params => \%params,
+		_params => ref($_[0])? $_[0]:{@_},
 	};
 	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base);
 	while (my ($k, $v) = each %defaults) {
@@ -60,7 +59,6 @@ sub new {
         $self->{uri}->port($self->{port}) if exists $self->{port};
 	return bless $self, $class;
 }
-
 
 sub AUTOLOAD {
 	my $self = shift;
@@ -80,7 +78,7 @@ sub AUTOLOAD {
 	if (want('OBJECT') || want('VOID')) {
 		return $self;
 	}
-        
+
 	my $url = join('/', grep {$_} @{[$self->{base}]}, @{ $self->{chain} });
         $self->{chain} = [];
         $self->{uri}->path($url);
@@ -88,7 +86,7 @@ sub AUTOLOAD {
         return Net::Rest::Generic::Utility::_doRestCall($self->{method}, $self->{uri}, $args);
 }
 
-sub meta {
+sub addLabel {
         my ($self, @labels) = @_;
         push @{ $self->{chain} }, @labels;
         return $self;
