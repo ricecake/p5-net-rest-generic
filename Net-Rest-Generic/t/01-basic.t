@@ -54,7 +54,7 @@ sub defaults {
 	my $api = Net::Rest::Generic->new();
 	isa_ok($api, 'Net::Rest::Generic');
 	is($api->{mode}, 'get', 'GET is default mode');
-	is($api->{scheme}, 'http', 'HTTP is default scheme');
+	is($api->{scheme}, 'https', 'HTTPS is default scheme');
 }
 
 sub context {

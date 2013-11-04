@@ -43,7 +43,7 @@ sub new {
 	my $class = shift;
 	my %defaults = (
 		mode   => 'get',
-		scheme => 'HTTPS',
+		scheme => 'https',
 	);
 	my $self = {
 		chain  => [],
@@ -83,7 +83,7 @@ sub AUTOLOAD {
 	my $url = join('/', @{ $self->{chain} });
         $self->{chain} = [];
         $self->{uri}->path($url);
-        
+
         return Net::Rest::Generic::Utility::_doRestCall($self->{method}, $self->{uri}, $args);
 }
 
