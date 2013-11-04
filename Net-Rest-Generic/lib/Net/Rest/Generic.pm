@@ -68,7 +68,6 @@ sub AUTOLOAD {
 	our $AUTOLOAD;
 	my ($key) = $AUTOLOAD =~ /.*::([\w_]+)/o;
 	return if ($key eq 'DESTROY');
-        print "$key\n";
 
 	push @{ $self->{chain} }, $key;
         my $args;
@@ -86,7 +85,7 @@ sub AUTOLOAD {
         $self->{chain} = [];
         $self->{uri}->path($url);
         
-        return Net::Rest::Generic::Utility::_doRestCall($self->{method}, $self->{uri}->as_string;, $args);
+        return Net::Rest::Generic::Utility::_doRestCall($self->{method}, $self->{uri}, $args);
 }
 
 sub meta {

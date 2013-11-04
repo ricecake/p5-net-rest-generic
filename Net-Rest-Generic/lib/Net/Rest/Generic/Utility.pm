@@ -4,6 +4,7 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 
+use LWP;
 
 sub _doRestCall {
         my ($method, $url, $args) = @_;
