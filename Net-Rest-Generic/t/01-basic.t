@@ -43,7 +43,7 @@ cmp_deeply(
 		'two',
 		'three',
 	],
-	'Chain contacts expected elements in the correct order'
+	'Chain returns expected elements in the correct order'
 );
 
 1;
