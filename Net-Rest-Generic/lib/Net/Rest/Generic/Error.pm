@@ -4,6 +4,7 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 
+#use ->throw like ->new to give an error object
 sub throw {
 	my $class = shift;
 	my %args = ref($_[0]) ? %{$_[0]} : @_;
@@ -19,19 +20,19 @@ sub throw {
 	return bless $self, $class;
 }
 
-sub type {
-	my $self = shift;
-	return $self->{type};
-}
-
 sub category {
 	my $self = shift;
-	return $self->{category};
+	return $self->{error_category};
 }
 
 sub message {
 	my $self = shift;
-	return $self->{message};
+	return $self->{error_message};
+}
+
+sub type {
+	my $self = shift;
+	return $self->{error_type};
 }
 
 1;
