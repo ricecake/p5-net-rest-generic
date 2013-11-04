@@ -44,12 +44,13 @@ sub new {
 	my %defaults = (
 		mode   => 'get',
 		scheme => 'https',
+		string => 0,
 	);
 	my $self = {
 		chain  => [],
 		_params => ref($_[0])? $_[0]:{@_},
 	};
-	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base);
+	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string);
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
@@ -84,6 +85,7 @@ sub AUTOLOAD {
         $self->{chain} = [];
         $self->{uri}->path($url);
 
+	return ($self->{mode}, $self->{uri}) if $self->{string};
         return Net::Rest::Generic::Utility::_doRestCall($self->{mode}, $self->{uri}, $args);
 }
 
