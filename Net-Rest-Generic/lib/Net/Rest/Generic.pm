@@ -84,7 +84,7 @@ sub AUTOLOAD {
         $self->{chain} = [];
         $self->{uri}->path($url);
 
-        return Net::Rest::Generic::Utility::_doRestCall($self->{method}, $self->{uri}, $args);
+        return Net::Rest::Generic::Utility::_doRestCall($self->{mode}, $self->{uri}, $args);
 }
 
 sub addLabel {
