@@ -6,13 +6,11 @@ use warnings FATAL => 'all';
 
 use LWP::UserAgent;
 
-my $userAgent;
-
 sub _doRestCall {
-        my ($method, $url, $args) = @_;
-        $userAgent ||= LWP::UserAgent->new;
+        my ($api, $method, $url, $args) = @_;
+        $api->{ua} ||= LWP::UserAgent->new;
         $args ||= {};
-        return $userAgent->$method($url, %{$args});
+        return $api->{ua}->$method($url, %{$api->{_params}}, %{$args});
 }
 
 1;
