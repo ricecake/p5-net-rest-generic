@@ -38,16 +38,15 @@ if you don't export anything, such as for a purely object-oriented module.
 =head1 SUBROUTINES/METHODS
 
 =cut
-
 sub new {
-	my ($class, %params) = @_;
+	my $class = shift;
 	my %defaults = (
 		mode   => 'get',
 		scheme => 'http',
 	);
 	my $self = {
 		chain  => [],
-		_params => \%params
+		_params => ref($_[0])? $_[0]:{@_}
 	};
 	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base);
 	while (my ($k, $v) = each %defaults) {
@@ -55,7 +54,6 @@ sub new {
 	}
 	return bless $self, $class;
 }
-
 
 sub AUTOLOAD {
 	my $self = shift;
