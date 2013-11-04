@@ -80,13 +80,13 @@ sub AUTOLOAD {
 		return $self;
 	}
 
-        unshift(@{ $self->{chain} }, $self->{base});
+        unshift(@{ $self->{chain} }, $self->{base}) if exists $self->{base};
 	my $url = join('/', @{ $self->{chain} });
         $self->{chain} = [];
         $self->{uri}->path($url);
 
 	return ($self->{mode}, $self->{uri}) if $self->{string};
-        return Net::Rest::Generic::Utility::_doRestCall($self->{mode}, $self->{uri}, $args);
+        return Net::Rest::Generic::Utility::_doRestCall($self, $self->{mode}, $self->{uri}, $args);
 }
 
 sub addLabel {
