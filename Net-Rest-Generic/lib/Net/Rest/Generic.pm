@@ -85,7 +85,15 @@ sub AUTOLOAD {
         $self->{chain} = [];
         $self->{uri}->path($url);
 
-	return ($self->{mode}, $self->{uri}) if $self->{string};
+	if ($self->{string}) {
+		if (want('LIST')) {
+			return ($self->{mode}, $self->{uri}->as_string);
+		}
+		else {
+			return $self->{uri}->as_string;
+		}
+	}
+
         return Net::Rest::Generic::Utility::_doRestCall($self, $self->{mode}, $self->{uri}, $args);
 }
 
