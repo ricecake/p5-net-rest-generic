@@ -3,7 +3,6 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 use Test::More;
-use Test::Deep;
 plan tests => 9;
 
 use_ok( 'Net::Rest::Generic' ) || print "Bail out!\n";
@@ -41,4 +40,5 @@ is(scalar(@{$api->{chain}}), 0, 'found empty chain after list context');
 $api->foo;
 is(shift(@{$api->{chain}}), 'foo', "found expected chain in object context");
 is(scalar(@{$api->{chain}}), 0, 'found expected chain in object context');
+
 1;
