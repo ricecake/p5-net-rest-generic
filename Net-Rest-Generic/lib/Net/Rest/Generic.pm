@@ -49,7 +49,7 @@ sub new {
 	);
 	my $self = {
 		chain  => [],
-		_params => ref($_[0])? $_[0]:{@_},
+		_params => ref($_[0]) ? $_[0] : {@_},
 	};
 	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string);
 	while (my ($k, $v) = each %defaults) {
@@ -195,7 +195,6 @@ CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
 CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 =cut
 
-1; # End of Net::Rest::Generic
+1;
