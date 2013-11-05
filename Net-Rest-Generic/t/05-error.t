@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 use Test::More;
 use Test::Deep;
-plan tests => 9;
+plan tests => 10;
 
 use_ok( 'Net::Rest::Generic::Error' ) || print "Bail out!\n";
 
@@ -30,5 +30,13 @@ is($message, 'dang it', 'error object returned expected message');
 
 my $type     = $error->type;
 is($type, '501', 'error object returned expected type');
+
+my $error_hash = Net::Rest::Generic::Error->throw({
+	category => 'http',
+	message  => 'dang it',
+	type     => '501',
+});
+
+is($error_hash->category, 'http', 'creating object with arguments as hashref succeeds');
 
 1;
