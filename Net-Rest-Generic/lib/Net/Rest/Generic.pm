@@ -6,6 +6,7 @@ use warnings FATAL => 'all';
 
 use Want;
 use URI;
+use Storable qw(dclone);
 use Net::Rest::Generic::Error;
 use Net::Rest::Generic::Utility;
 
@@ -47,11 +48,12 @@ sub new {
 		scheme => 'https',
 		string => 0,
 	);
+	my $param_ref = ref($_[0]) ? $_[0] : {@_};
 	my $self = {
-		chain  => [],
-		_params => ref($_[0]) ? $_[0] : {@_},
+		chain   => [],
+		_params => dclone($param_ref),
 	};
-	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string);
+	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string);
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
@@ -66,7 +68,7 @@ sub new {
 	if (! grep (/$self->{scheme}/i, @schemes)) {
 		return Net::Rest::Generic::Error->throw(
 			category => 'input',
-			message => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $self->{scheme},
+			message  => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $self->{scheme},
 		);
 	}
         $self->{uri} = URI->new();
