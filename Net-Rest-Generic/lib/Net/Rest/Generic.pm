@@ -6,8 +6,8 @@ use warnings FATAL => 'all';
 
 use Want;
 use URI;
-use Net::Rest::Generic::Utility;
 use Net::Rest::Generic::Error;
+use Net::Rest::Generic::Utility;
 
 =head1 NAME
 
@@ -55,17 +55,24 @@ sub new {
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
+	my @modes = qw(delete get post put);
+	if (! grep (/$self->{mode}/i, @modes)) {
+		return Net::Rest::Generic::Error->throw(
+			category => 'input',
+			message => 'mode must be one of the following: ' . join(', ', @modes) . '. You supplied: ' . $self->{mode},
+		);
+	}
+	my @schemes = qw(http https);
+	if (! grep (/$self->{scheme}/i, @schemes)) {
+		return Net::Rest::Generic::Error->throw(
+			category => 'input',
+			message => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $self->{scheme},
+		);
+	}
         $self->{uri} = URI->new();
         $self->{uri}->scheme($self->{scheme});
         $self->{uri}->host($self->{host});
         $self->{uri}->port($self->{port}) if exists $self->{port};
-
-	if (! grep /lc($self->{mode})/ qw(delete get post put)) {
-		return Net::Rest::Generic::Error->throw(
-			category => 'input',
-			message => 'Mode must be one of the following: delete, get, post, put. You supplied: ' . $self->{mode},
-		);
-	}
 
 	return bless $self, $class;
 }
