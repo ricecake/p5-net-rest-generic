@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 use Test::More;
 use Test::Deep;
-plan tests => 10;
+plan tests => 11;
 
 use_ok( 'Net::Rest::Generic' ) || print "Bail out!\n";
 
