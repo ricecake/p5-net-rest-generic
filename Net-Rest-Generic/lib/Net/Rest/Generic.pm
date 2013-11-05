@@ -7,6 +7,8 @@ use warnings FATAL => 'all';
 use Want;
 use URI;
 use Net::Rest::Generic::Utility;
+use Net::Rest::Generic::Error;
+
 =head1 NAME
 
 Net::Rest::Generic - The great new Net::Rest::Generic!
@@ -18,7 +20,6 @@ Version 0.01
 =cut
 
 our $VERSION = '0.01';
-
 
 =head1 SYNOPSIS
 
@@ -58,6 +59,14 @@ sub new {
         $self->{uri}->scheme($self->{scheme});
         $self->{uri}->host($self->{host});
         $self->{uri}->port($self->{port}) if exists $self->{port};
+
+	if (! grep /lc($self->{mode})/ qw(delete get post put)) {
+		return Net::Rest::Generic::Error->throw(
+			category => 'input',
+			message => 'Mode must be one of the following: delete, get, post, put. You supplied: ' . $self->{mode},
+		);
+	}
+
 	return bless $self, $class;
 }
 
@@ -99,7 +108,7 @@ sub AUTOLOAD {
 
 sub addLabel {
         my ($self, @labels) = @_;
-        push @{ $self->{chain} }, @labels;
+        push @{$self->{chain}}, @labels;
         return $self;
 }
 
