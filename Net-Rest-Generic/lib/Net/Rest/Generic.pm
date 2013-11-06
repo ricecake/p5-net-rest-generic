@@ -41,6 +41,7 @@ if you don't export anything, such as for a purely object-oriented module.
 =head1 SUBROUTINES/METHODS
 
 =cut
+
 sub new {
 	my $class = shift;
 	my %defaults = (
@@ -53,7 +54,7 @@ sub new {
 		chain   => [],
 		_params => dclone($param_ref),
 	};
-	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string);
+	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string authorization_basic);
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
