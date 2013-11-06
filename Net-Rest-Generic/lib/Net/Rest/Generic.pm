@@ -57,25 +57,12 @@ sub new {
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
-	my @modes = qw(delete get post put);
-	if (! grep (/$self->{mode}/i, @modes)) {
-		return Net::Rest::Generic::Error->throw(
-			category => 'input',
-			message => 'mode must be one of the following: ' . join(', ', @modes) . '. You supplied: ' . $self->{mode},
-		);
-	}
-	my @schemes = qw(http https);
-	if (! grep (/$self->{scheme}/i, @schemes)) {
-		return Net::Rest::Generic::Error->throw(
-			category => 'input',
-			message  => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $self->{scheme},
-		);
-	}
+	my $input = Net::Rest::Generic::Utility::_validateInput($self);
+	return $input if (ref($input) eq 'Net::Rest::Generic::Error');
         $self->{uri} = URI->new();
         $self->{uri}->scheme($self->{scheme});
         $self->{uri}->host($self->{host});
         $self->{uri}->port($self->{port}) if exists $self->{port};
-
 	return bless $self, $class;
 }
 
