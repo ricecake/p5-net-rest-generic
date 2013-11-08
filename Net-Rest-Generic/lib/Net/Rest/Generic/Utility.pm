@@ -12,14 +12,9 @@ sub _doRestCall {
         my ($api, $method, $url, $args) = @_;
         $args ||= {};
         $api->{ua} ||= LWP::UserAgent->new;
-        $api->{req} ||= HTTP::Request->new($method => $url);
-        my $content = encode_json($args);
-        $api->{req}->content($content);
-        $api->{req}->authorization_basic(
-                $api->{authorization_basic}{username},
-                $api->{authorization_basic}{password}
-        ) if $api->{authorization_basic}{username};
-        return $api->{ua}->request($api->{req});
+        $api->{ua}->credentials($url->host_port(), $api->{authorization_basic}{username}, $api->{authorization_basic}{password})
+                if $api->{authorization_basic}{username};
+        return $api->{ua}->$method($url, %{$api->{_params}}, %{$args});
 }
 
 sub _validateInput {

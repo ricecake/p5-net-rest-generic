@@ -109,6 +109,12 @@ sub addLabel {
         return $self;
 }
 
+sub setRequestMethod {
+        my ($self, $method) = @_;
+        $self->{mode} = $method;
+        return $self;
+}
+
 =head1 AUTHOR
 
 Sebastian Green-Husted, Shane Utt, C<< <ricecake at tfm.nu> >>
