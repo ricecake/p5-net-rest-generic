@@ -5,8 +5,6 @@ use strict;
 use warnings FATAL => 'all';
 
 use LWP::UserAgent;
-use HTTP::Request;
-use JSON;
 
 sub _doRestCall {
         my ($api, $method, $url, $args) = @_;
