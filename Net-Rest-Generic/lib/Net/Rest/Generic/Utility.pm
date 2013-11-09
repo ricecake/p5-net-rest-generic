@@ -37,7 +37,7 @@ sub _doRestCall {
 
 sub _validateInput {
         my $api = shift;
-	my @modes = qw(delete get post put);
+	my @modes = qw(delete get post put head);
 	if (! grep (/$api->{mode}/i, @modes)) {
 		return Net::Rest::Generic::Error->throw(
 			category => 'input',
