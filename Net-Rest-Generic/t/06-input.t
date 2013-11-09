@@ -19,7 +19,7 @@ my %arguments = (
 
 my $api = Net::Rest::Generic->new(%arguments);
 isa_ok($api, 'Net::Rest::Generic::Error', 'Received expected error object when sending an invalid mode');
-is($api->message, 'mode must be one of the following: delete, get, post, put. You supplied: foo', 'message is correct');
+is($api->message, 'mode must be one of the following: delete, get, post, put, head. You supplied: foo', 'message is correct');
 is($api->category, 'input', 'category is correct');
 is($api->type, 'fail', 'type is correct');
 
