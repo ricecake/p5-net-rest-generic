@@ -6,10 +6,13 @@ use warnings FATAL => 'all';
 
 use Want;
 use URI;
+use Storable qw(dclone);
+use Net::Rest::Generic::Error;
 use Net::Rest::Generic::Utility;
+
 =head1 NAME
 
-Net::Rest::Generic - The great new Net::Rest::Generic!
+Net::Rest::Generic - A tool for generically interacting with restfull (or restlike) APIs.
 
 =head1 VERSION
 
@@ -19,40 +22,56 @@ Version 0.01
 
 our $VERSION = '0.01';
 
-
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+Net::Rest::Generic is a module for interacting with arbitrary HTTP/S APIs.
+It attempts to do this by providing an easy to read syntax for generating the request
+URLs on the fly, and generally Doing The Right Thing.
 
 Perhaps a little code snippet.
 
     use Net::Rest::Generic;
 
-    my $foo = Net::Rest::Generic->new();
+    my $api = Net::Rest::Generic->new(
+                host => "api.foo.com",
+                scheme => "https",
+                base => "api/v1",
+                authorization_basic => {
+                        username => "user",
+                        password => "password",
+                }
+        );
+    my $result = $api->setRequestMethod("POST")->this->is->the->url("parameterized")->addLabel("new");
+    
+    my $details = $api->setRequestMethod("GET")->user("superUser")->details->color->favorite;
     ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
 
 =head1 SUBROUTINES/METHODS
 
+=head2 new()
+
+The new method is used to create a new() Net::Rest::Generic object.
+
 =cut
+
 sub new {
 	my $class = shift;
 	my %defaults = (
 		mode   => 'get',
-		scheme => 'HTTPS',
+		scheme => 'https',
+		string => 0,
 	);
+	my $param_ref = ref($_[0]) ? $_[0] : {@_};
 	my $self = {
-		chain  => [],
-		_params => ref($_[0])? $_[0]:{@_},
+		chain   => [],
+		_params => dclone($param_ref),
 	};
-	map { $self->{$_} = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base);
+	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string authorization_basic);
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
+	my $input = Net::Rest::Generic::Utility::_validateInput($self);
+	return $input if (ref($input) eq 'Net::Rest::Generic::Error');
         $self->{uri} = URI->new();
         $self->{uri}->scheme($self->{scheme});
         $self->{uri}->host($self->{host});
@@ -79,31 +98,63 @@ sub AUTOLOAD {
 		return $self;
 	}
 
-	my $url = join('/', grep {$_} @{[$self->{base}]}, @{ $self->{chain} });
+        unshift(@{ $self->{chain} }, $self->{base}) if exists $self->{base};
+	my $url = join('/', @{ $self->{chain} });
         $self->{chain} = [];
         $self->{uri}->path($url);
-        
-        return Net::Rest::Generic::Utility::_doRestCall($self->{method}, $self->{uri}, $args);
+
+	if ($self->{string}) {
+		if (want('LIST')) {
+			return ($self->{mode}, $self->{uri}->as_string);
+		}
+		else {
+			return $self->{uri}->as_string;
+		}
+	}
+
+        return Net::Rest::Generic::Utility::_doRestCall($self, $self->{mode}, $self->{uri}, $args);
 }
+
+=head2 addLabel()
+
+The addLabel method exists in case the rest url that you're using
+has a portion of it's path that has the same name as a method that isn't
+handled by the AUTOLOAD method in this module.
+
+usage: $api->addLabel("new");
+
+=cut
 
 sub addLabel {
         my ($self, @labels) = @_;
-        push @{ $self->{chain} }, @labels;
+        push @{$self->{chain}}, @labels;
+        return $self;
+}
+
+=head2 setRequestMethod()
+
+The setRequestMethod function is used to change the method that the object
+will use when running the request.
+
+usage $api->setRequestMethod("POST")->......
+
+=cut
+
+sub setRequestMethod {
+        my ($self, $method) = @_;
+        $self->{mode} = $method;
         return $self;
 }
 
 =head1 AUTHOR
 
-Sebastian Green-Husted,Shane Utt, C<< <ricecake at tfm.nu> >>
+Sebastian Green-Husted, Shane Utt, C<< <ricecake at tfm.nu> >>
 
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-net-rest-generic at rt.cpan.org>, or through
 the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Net-Rest-Generic>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
-
-
 
 =head1 SUPPORT
 
@@ -178,7 +229,6 @@ CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
 CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 =cut
 
-1; # End of Net::Rest::Generic
+1;
