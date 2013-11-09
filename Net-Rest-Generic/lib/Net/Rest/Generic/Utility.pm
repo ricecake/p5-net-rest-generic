@@ -12,6 +12,13 @@ sub _doRestCall {
         $method = uc($method);
         $args ||= {};
         $api->{ua} ||= LWP::UserAgent->new;
+        my ($request, @params) = _generateRequest($api, $method, $url, $args);
+        $api->{ua}->request( $request, @params );
+}
+
+sub _generateRequest {
+        my ($api, $method, $url, $args) = @_;
+
         my $ua = $api->{ua};
         my @parameters = ($url, %{$api->{_params}}, %{$args});
         my $parameterOffset;
@@ -22,7 +29,7 @@ sub _doRestCall {
                 $parameterOffset = 1;
         }
         
-        my @suff = $ua->_process_colonic_headers(\@parameters,);
+        my @stuff = $ua->_process_colonic_headers(\@parameters,);
         {
                 no strict qw(refs);
                 my $request = &{"HTTP::Request::Common::${method}"}( @parameters );
@@ -31,8 +38,9 @@ sub _doRestCall {
                         $api->{authorization_basic}{password}
                 ) if $api->{authorization_basic}{username};
 
-                return $ua->request( $request, @suff );
+                return ($request, @stuff);
         }
+      
 }
 
 sub _validateInput {
