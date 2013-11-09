@@ -13,8 +13,16 @@ sub _doRestCall {
         $args ||= {};
         $api->{ua} ||= LWP::UserAgent->new;
         my $ua = $api->{ua};
-        my @parameters = (%{$api->{_params}}, %{$args});
-        my @suff = $ua->_process_colonic_headers(\@parameters,1);
+        my @parameters = ($url, %{$api->{_params}}, %{$args});
+        my $parameterOffset;
+        if ($method eq 'PUT'||$methd eq 'POST') {
+                $parameterOffset = ref($parameters[1])? 2 : 1;
+        }
+        else {
+                $parameterOffset = 1;
+        }
+        
+        my @suff = $ua->_process_colonic_headers(\@parameters,);
         {
                 no strict qw(refs);
                 my $request = &{"HTTP::Request::Common::${method}"}( @parameters );
