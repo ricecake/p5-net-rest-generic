@@ -15,7 +15,7 @@ sub _doRestCall {
         my $ua = $api->{ua};
         my @parameters = ($url, %{$api->{_params}}, %{$args});
         my $parameterOffset;
-        if ($method eq 'PUT'||$methd eq 'POST') {
+        if ($method eq 'PUT'||$method eq 'POST') {
                 $parameterOffset = ref($parameters[1])? 2 : 1;
         }
         else {
