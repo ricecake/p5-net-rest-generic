@@ -42,7 +42,7 @@ Perhaps a little code snippet.
                 }
         );
     my $result = $api->setRequestMethod("POST")->this->is->the->url("parameterized")->addLabel("new");
-    
+
     my $details = $api->setRequestMethod("GET")->user("superUser")->details->color->favorite;
     ...
 
@@ -148,7 +148,9 @@ sub setRequestMethod {
 
 =head1 AUTHOR
 
-Sebastian Green-Husted, Shane Utt, C<< <ricecake at tfm.nu> >>
+Sebastian Green-Husted C<< <ricecake at tfm.nu> >>
+
+Shane Utt C<< <shaneutt at linux.com> >>
 
 =head1 BUGS
 
@@ -161,7 +163,6 @@ automatically be notified of progress on your bug as I make changes.
 You can find documentation for this module with the perldoc command.
 
     perldoc Net::Rest::Generic
-
 
 You can also look for information at:
 
