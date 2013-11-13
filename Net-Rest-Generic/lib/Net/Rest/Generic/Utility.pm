@@ -28,8 +28,8 @@ sub _generateRequest {
         else {
                 $parameterOffset = 1;
         }
-        
-        my @stuff = $ua->_process_colonic_headers(\@parameters,);
+
+        my @stuff = $ua->_process_colonic_headers(\@parameters, 0);
         {
                 no strict qw(refs);
                 my $request = &{"HTTP::Request::Common::${method}"}( @parameters );
@@ -40,7 +40,7 @@ sub _generateRequest {
 
                 return ($request, @stuff);
         }
-      
+
 }
 
 sub _validateInput {
