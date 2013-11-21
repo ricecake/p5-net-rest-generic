@@ -33,14 +33,14 @@ A basic example:
     use Net::Rest::Generic;
 
     my $api = Net::Rest::Generic->new(
-                host => "api.foo.com",
-                scheme => "https",
-                base => "api/v1",
-                authorization_basic => {
-                        username => "user",
-                        password => "password",
-                }
-        );
+		host => "api.foo.com",
+		scheme => "https",
+		base => "api/v1",
+		authorization_basic => {
+			username => "user",
+			password => "password",
+		}
+	);
     my $result = $api->setRequestMethod("POST")->this->is->the->url("parameterized")->addLabel("new");
 
     my $details = $api->setRequestMethod("GET")->user("superUser")->details->color->favorite;
@@ -71,7 +71,7 @@ sub new {
 		$self->{$k} ||= $v;
 	}
 
-        my $input;
+	my $input;
 	my @modes = qw(delete get post put head);
 	if (! grep (/$self->{mode}/i, @modes)) {
 		$input = Net::Rest::Generic::Error->throw(
@@ -88,10 +88,10 @@ sub new {
 	}
 	return $input if (ref($input) eq 'Net::Rest::Generic::Error');
 
-        $self->{uri} = URI->new();
-        $self->{uri}->scheme($self->{scheme});
-        $self->{uri}->host($self->{host});
-        $self->{uri}->port($self->{port}) if exists $self->{port};
+	$self->{uri} = URI->new();
+	$self->{uri}->scheme($self->{scheme});
+	$self->{uri}->host($self->{host});
+	$self->{uri}->port($self->{port}) if exists $self->{port};
 	return bless $self, $class;
 }
 
@@ -103,21 +103,21 @@ sub AUTOLOAD {
 	return if ($key eq 'DESTROY');
 
 	push @{ $self->{chain} }, $key;
-        my $args;
-        if (ref($_[0])) {
-                $args = $_[0];
-        }
-        else {
-                push @{ $self->{chain} }, @_;
-        }
+	my $args;
+	if (ref($_[0])) {
+		$args = $_[0];
+	}
+	else {
+		push @{ $self->{chain} }, @_;
+	}
 	if (want('OBJECT') || want('VOID')) {
 		return $self;
 	}
 
-        unshift(@{ $self->{chain} }, $self->{base}) if exists $self->{base};
+	unshift(@{ $self->{chain} }, $self->{base}) if exists $self->{base};
 	my $url = join('/', @{ $self->{chain} });
-        $self->{chain} = [];
-        $self->{uri}->path($url);
+	$self->{chain} = [];
+	$self->{uri}->path($url);
 
 	if ($self->{string}) {
 		if (want('LIST')) {
@@ -128,7 +128,7 @@ sub AUTOLOAD {
 		}
 	}
 
-        return Net::Rest::Generic::Utility::_doRestCall($self, $self->{mode}, $self->{uri}, $args);
+	return Net::Rest::Generic::Utility::_doRestCall($self, $self->{mode}, $self->{uri}, $args);
 }
 
 =head2 addLabel()
@@ -142,9 +142,9 @@ usage: $api->addLabel("new");
 =cut
 
 sub addLabel {
-        my ($self, @labels) = @_;
-        push @{$self->{chain}}, @labels;
-        return $self;
+	my ($self, @labels) = @_;
+	push @{$self->{chain}}, @labels;
+	return $self;
 }
 
 =head2 setRequestMethod()
@@ -157,9 +157,9 @@ usage $api->setRequestMethod("POST")->......
 =cut
 
 sub setRequestMethod {
-        my ($self, $method) = @_;
-        $self->{mode} = $method;
-        return $self;
+	my ($self, $method) = @_;
+	$self->{mode} = $method;
+	return $self;
 }
 
 =head1 AUTHORS
