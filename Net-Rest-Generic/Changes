@@ -3,3 +3,16 @@ Revision history for Net-Rest-Generic
 0.01    Date/time
         First version, released on an unsuspecting world.
 
+0.02	2013-11-09
+	Second point release, first usable version. Uploaded to cpan.
+
+0.03	2013-11-12
+	Cleanup release for CPAN, fixed test warnings when installing
+	the module.
+
+0.04	2013-11-19
+	Merge conflicts
+
+0.05	2013-11-21
+	Maintenance: cleanup for whitespace, an uneeded method, added more
+	POD documentation, simplified error helper methods.
