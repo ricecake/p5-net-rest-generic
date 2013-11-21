@@ -76,14 +76,14 @@ sub new {
 	if (! grep (/$self->{mode}/i, @modes)) {
 		$input = Net::Rest::Generic::Error->throw(
 			category => 'input',
-			message => 'mode must be one of the following: ' . join(', ', @modes) . '. You supplied: ' . $api->{mode},
+			message => 'mode must be one of the following: ' . join(', ', @modes) . '. You supplied: ' . $self->{mode},
 		);
 	}
 	my @schemes = qw(http https);
 	if (! grep (/$self->{scheme}/i, @schemes)) {
 		$input = Net::Rest::Generic::Error->throw(
 			category => 'input',
-			message  => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $api->{scheme},
+			message  => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $self->{scheme},
 		);
 	}
 	return $input if (ref($input) eq 'Net::Rest::Generic::Error');
