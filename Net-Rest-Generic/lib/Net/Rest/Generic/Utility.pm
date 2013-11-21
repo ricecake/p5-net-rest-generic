@@ -43,23 +43,4 @@ sub _generateRequest {
 
 }
 
-sub _validateInput {
-        my $api = shift;
-	my @modes = qw(delete get post put head);
-	if (! grep (/$api->{mode}/i, @modes)) {
-		return Net::Rest::Generic::Error->throw(
-			category => 'input',
-			message => 'mode must be one of the following: ' . join(', ', @modes) . '. You supplied: ' . $api->{mode},
-		);
-	}
-	my @schemes = qw(http https);
-	if (! grep (/$api->{scheme}/i, @schemes)) {
-		return Net::Rest::Generic::Error->throw(
-			category => 'input',
-			message  => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $api->{scheme},
-		);
-	}
-        return 1;
-}
-
 1;
