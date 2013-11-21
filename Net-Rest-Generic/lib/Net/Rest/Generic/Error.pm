@@ -36,7 +36,6 @@ Used like ->new to give an error object.
 
 =cut
 
-#use ->throw like ->new to give an error object
 sub throw {
 	my $class = shift;
 	my %args = ref($_[0]) ? %{$_[0]} : @_;
