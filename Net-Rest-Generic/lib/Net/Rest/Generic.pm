@@ -70,8 +70,24 @@ sub new {
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
-	my $input = Net::Rest::Generic::Utility::_validateInput($self);
+
+        my $input;
+	my @modes = qw(delete get post put head);
+	if (! grep (/$self->{mode}/i, @modes)) {
+		$input = Net::Rest::Generic::Error->throw(
+			category => 'input',
+			message => 'mode must be one of the following: ' . join(', ', @modes) . '. You supplied: ' . $api->{mode},
+		);
+	}
+	my @schemes = qw(http https);
+	if (! grep (/$self->{scheme}/i, @schemes)) {
+		$input = Net::Rest::Generic::Error->throw(
+			category => 'input',
+			message  => 'scheme must be one of the following: ' . join(', ', @schemes) . '. You supplied: ' . $api->{scheme},
+		);
+	}
 	return $input if (ref($input) eq 'Net::Rest::Generic::Error');
+
         $self->{uri} = URI->new();
         $self->{uri}->scheme($self->{scheme});
         $self->{uri}->host($self->{host});
