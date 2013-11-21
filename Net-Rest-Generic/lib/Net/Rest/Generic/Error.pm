@@ -50,15 +50,33 @@ sub throw {
 	return bless $self, $class;
 }
 
+=head2 category()
+
+Helper method to retrieve the category of the current error object.
+
+=cut
+
 sub category {
 	my $self = shift;
 	return $self->{error_category};
 }
 
+=head2 message()
+
+Helper method to retrieve the message of the current error object.
+
+=cut
+
 sub message {
 	my $self = shift;
 	return $self->{error_message};
 }
+
+=head2 type()
+
+Helper method to retrieve the type of the current error object.
+
+=cut
 
 sub type {
 	my $self = shift;
