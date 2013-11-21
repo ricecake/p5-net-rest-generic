@@ -28,7 +28,7 @@ Net::Rest::Generic is a module for interacting with arbitrary HTTP/S APIs.
 It attempts to do this by providing an easy to read syntax for generating the request
 URLs on the fly, and generally Doing The Right Thing.
 
-Perhaps a little code snippet.
+A basic example:
 
     use Net::Rest::Generic;
 
@@ -184,10 +184,6 @@ L<http://cpanratings.perl.org/d/Net-Rest-Generic>
 L<http://search.cpan.org/dist/Net-Rest-Generic/>
 
 =back
-
-
-=head1 ACKNOWLEDGEMENTS
-
 
 =head1 LICENSE AND COPYRIGHT
 
