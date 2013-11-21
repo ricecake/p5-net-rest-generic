@@ -7,6 +7,12 @@ use warnings FATAL => 'all';
 use LWP::UserAgent;
 use HTTP::Request::Common;
 
+=head1 NAME
+
+Net::Rest::Generic::Utility - Utility methods for arbitrary api functionality
+
+=cut
+
 sub _doRestCall {
         my ($api, $method, $url, $args) = @_;
         $method = uc($method);
