@@ -165,6 +165,7 @@ sub setRequestMethod {
 =head1 AUTHORS
 
 Sebastian Green-Husted, C<< <ricecake at tfm.nu> >>
+
 Shane Utt, C<< <shaneutt at linux.com> >>
 
 =head1 BUGS
