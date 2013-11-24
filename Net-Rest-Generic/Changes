@@ -16,3 +16,6 @@ Revision history for Net-Rest-Generic
 0.05	2013-11-21
 	Maintenance: cleanup for whitespace, an uneeded method, added more
 	POD documentation, simplified error helper methods.
+
+0.06	2013-11-24
+	Maintenance: cleanup for copyright and author information
