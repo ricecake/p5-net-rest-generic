@@ -147,6 +147,19 @@ sub addLabel {
 	return $self;
 }
 
+=head2 clone()
+
+The clone function is used to make a hard copy of whatever object you're
+working on so that you can make a 'save point' of your object.
+
+usage my $cloneapi = $api->clone
+
+=cut
+
+sub clone {
+	return dclone(shift);
+}
+
 =head2 setRequestMethod()
 
 The setRequestMethod function is used to change the method that the object
