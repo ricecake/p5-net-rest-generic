@@ -17,11 +17,11 @@ my %arguments = (
 	string => 1,
 );
 
-my $api = Net::Rest::Generic->new(mode => 'post');
+my $api = Net::Rest::Generic->new({mode => 'post'});
 isa_ok(
 	$api,
 	'Net::Rest::Generic',
-	'Create with a HASHREF succeeded and it'
+	'Create with a HASHREF succeeded'
 );
 my $cloneapi = $api->clone();
 isa_ok(
@@ -33,7 +33,7 @@ $api = Net::Rest::Generic->new(%arguments);
 isa_ok(
 	$api,
 	'Net::Rest::Generic',
-	'Create with a HASH succeeded and it'
+	'Create with a HASH succeeded'
 );
 for my $key (keys %arguments) {
 	is($arguments{$key}, $api->{$key}, "$key returned expected value");
