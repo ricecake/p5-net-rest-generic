@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 use Test::More;
 use Test::Deep;
-plan tests => 11;
+plan tests => 12;
 
 use_ok( 'Net::Rest::Generic' ) || print "Bail out!\n";
 
@@ -23,6 +23,12 @@ isa_ok(
 	'Net::Rest::Generic',
 	'Create with a HASHREF succeeded and it'
 );
+my $cloneapi = $api->clone();
+isa_ok(
+	$cloneapi,
+	'Net::Rest::Generic',
+	'Clone succeeded'
+);
 $api = Net::Rest::Generic->new(%arguments);
 isa_ok(
 	$api,
@@ -30,7 +36,7 @@ isa_ok(
 	'Create with a HASH succeeded and it'
 );
 for my $key (keys %arguments) {
-    is($arguments{$key}, $api->{$key}, "$key returned expected value");
+	is($arguments{$key}, $api->{$key}, "$key returned expected value");
 }
 
 my ($foo, $bar, $baz) = ('one', 'two', 'three');
