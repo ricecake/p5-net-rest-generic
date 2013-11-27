@@ -16,11 +16,11 @@ Net::Rest::Generic - A tool for generically interacting with restfull (or restli
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =cut
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 =head1 SYNOPSIS
 
@@ -46,6 +46,8 @@ A basic example:
     my $details = $api->setRequestMethod("GET")->user("superUser")->details->color->favorite;
     ...
 
+LWP::UserAgent options can be passed in to new() as useragent_options => {}
+
 =head1 SUBROUTINES/METHODS
 
 =head2 new()
@@ -66,7 +68,7 @@ sub new {
 		chain   => [],
 		_params => dclone($param_ref),
 	};
-	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string authorization_basic);
+	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string authorization_basic useragent_options);
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}

@@ -17,7 +17,12 @@ sub _doRestCall {
         my ($api, $method, $url, $args) = @_;
         $method = uc($method);
         $args ||= {};
-        $api->{ua} ||= LWP::UserAgent->new;
+        if ($api->{useragent_options} && ref($api->{useragent_options}) eq 'HASH') {
+                $api->{ua} ||= LWP::UserAgent->new($api->{useragent_options});
+        }
+        else {
+                $api->{ua} ||= LWP::UserAgent->new();
+        }
         my ($request, @params) = _generateRequest($api, $method, $url, $args);
         $api->{ua}->request( $request, @params );
 }
