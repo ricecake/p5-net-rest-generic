@@ -236,6 +236,7 @@ L<http://search.cpan.org/dist/Net-Rest-Generic/>
 =head1 LICENSE AND COPYRIGHT
 
 Copyright (C) 2013 Sebastian Green-Husted, All Rights Reserved.
+
 Copyright (C) 2013 Shane Utt, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
