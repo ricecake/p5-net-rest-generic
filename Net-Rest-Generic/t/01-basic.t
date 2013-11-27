@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 use Test::More;
 use Test::Deep;
-plan tests => 12;
+plan tests => 14;
 
 use_ok( 'Net::Rest::Generic' ) || print "Bail out!\n";
 
@@ -16,7 +16,6 @@ my %arguments = (
 	base   => 'version1',
 	string => 1,
 );
-
 my $api = Net::Rest::Generic->new({mode => 'post'});
 isa_ok(
 	$api,
@@ -29,6 +28,14 @@ isa_ok(
 	'Net::Rest::Generic',
 	'Clone succeeded'
 );
+$api->userAgentOptions(ssl_opts => {verify_hostname => 0});
+my $opts_test = $api->foo->bar->baz;
+isa_ok(
+	$api->{ua},
+	'LWP::UserAgent',
+	'LWP::UserAgent object present in the $api',
+);
+is($api->{ua}{ssl_opts}{verify_hostname}, 0, 'UserAgent Options were successfully passed on');
 $api = Net::Rest::Generic->new(%arguments);
 isa_ok(
 	$api,
