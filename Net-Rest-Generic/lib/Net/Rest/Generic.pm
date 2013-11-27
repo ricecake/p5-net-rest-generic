@@ -46,8 +46,6 @@ A basic example:
     my $details = $api->setRequestMethod("GET")->user("superUser")->details->color->favorite;
     ...
 
-LWP::UserAgent options can be passed in to new() as useragent_options => {}
-
 =head1 SUBROUTINES/METHODS
 
 =head2 new()
@@ -68,7 +66,7 @@ sub new {
 		chain   => [],
 		_params => dclone($param_ref),
 	};
-	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string authorization_basic useragent_options);
+	map { $self->{$_}  = delete $self->{_params}{$_} } grep { defined($self->{_params}{$_}) } qw(mode scheme host port base string authorization_basic);
 	while (my ($k, $v) = each %defaults) {
 		$self->{$k} ||= $v;
 	}
@@ -174,6 +172,24 @@ usage $api->setRequestMethod("POST")->......
 sub setRequestMethod {
 	my ($self, $method) = @_;
 	$self->{mode} = $method;
+	return $self;
+}
+
+=head2 userAgentOptions()
+
+The userAgentOptions method will allow you to send in a hash or hashref
+that will be used as the options for the LWP::UserAgent object used for
+making the api call.
+
+For example:
+$api->userAgentOptions(ssl_opts => {verify_hostname => 0});
+
+=cut
+
+sub userAgentOptions {
+	my $self = shift;
+	my $argref = ref($_[0]) ? $_[0] : {@_};
+	$self->{useragent_options} = $argref;
 	return $self;
 }
 
