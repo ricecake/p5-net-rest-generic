@@ -18,7 +18,7 @@ sub _doRestCall {
         $method = uc($method);
         $args ||= {};
         if ($api->{useragent_options} && ref($api->{useragent_options}) eq 'HASH') {
-                $api->{ua} ||= LWP::UserAgent->new($api->{useragent_options});
+                $api->{ua} ||= LWP::UserAgent->new(%{$api->{useragent_options}});
         }
         else {
                 $api->{ua} ||= LWP::UserAgent->new();
