@@ -22,7 +22,7 @@ isa_ok(
 	'Net::Rest::Generic',
 	'Create with a HASHREF succeeded'
 );
-my $cloneapi = $api->clone();
+my $cloneapi = $api->cloneApi();
 isa_ok(
 	$cloneapi,
 	'Net::Rest::Generic',

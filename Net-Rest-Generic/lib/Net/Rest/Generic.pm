@@ -156,7 +156,7 @@ usage my $cloneapi = $api->clone
 
 =cut
 
-sub clone {
+sub cloneApi {
 	return dclone(shift);
 }
 
