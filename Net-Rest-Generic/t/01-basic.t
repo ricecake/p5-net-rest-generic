@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 use Test::More;
 use Test::Deep;
-plan tests => 14;
+plan tests => 15;
 
 use_ok( 'Net::Rest::Generic' ) || print "Bail out!\n";
 
@@ -16,17 +16,24 @@ my %arguments = (
 	base   => 'version1',
 	string => 1,
 );
+
 my $api = Net::Rest::Generic->new({mode => 'post'});
-isa_ok(
-	$api,
-	'Net::Rest::Generic',
-	'Create with a HASHREF succeeded'
-);
+
 my $cloneapi = $api->cloneApi();
 isa_ok(
 	$cloneapi,
 	'Net::Rest::Generic',
 	'Clone succeeded'
+);
+
+my $test = 'test';
+my $request = $cloneapi->setRequestContent($test)->foo;
+is($request->{_request}{_content}, 'test', 'setRequestContent is adding content properly');
+
+isa_ok(
+	$api,
+	'Net::Rest::Generic',
+	'Create with a HASHREF succeeded'
 );
 $api->userAgentOptions(ssl_opts => {verify_hostname => 0});
 my $opts_test = $api->foo->bar->baz;
