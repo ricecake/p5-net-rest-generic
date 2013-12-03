@@ -147,9 +147,9 @@ sub addLabel {
 	return $self;
 }
 
-=head2 clone()
+=head2 cloneApi
 
-The clone function is used to make a hard copy of whatever object you're
+The cloneApi function is used to make a hard copy of whatever object you're
 working on so that you can make a 'save point' of your object.
 
 usage my $cloneapi = $api->clone
