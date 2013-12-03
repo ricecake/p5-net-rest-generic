@@ -175,6 +175,24 @@ sub setRequestMethod {
 	return $self;
 }
 
+=head2 setRequestContent()
+
+The setRequestContent method will allow you to send something specifically
+along in the HTTP::Request object when the call to the api is made.
+
+For instance you may want to send the api method you're about to use a json
+data structure, you could do:
+
+$api->setRequestMethod($json)->methodthatrequiresjson
+
+=cut
+
+sub setRequestContent {
+	my ($self, $content) = @_;
+	$self->{request_content} = $content;
+	return $self;
+}
+
 =head2 userAgentOptions()
 
 The userAgentOptions method will allow you to send in a hash or hashref

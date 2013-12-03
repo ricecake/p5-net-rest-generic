@@ -48,6 +48,7 @@ sub _generateRequest {
                         $api->{authorization_basic}{username},
                         $api->{authorization_basic}{password}
                 ) if $api->{authorization_basic}{username};
+                $request->content($api->{request_content}) if $api->{request_content};
 
                 return ($request, @stuff);
         }
