@@ -15,7 +15,9 @@ WriteMakefile(
         'ExtUtils::MakeMaker' => 0,
     },
     BUILD_REQUIRES => {
-        'Test::More' => 0,
+	'Want'       => 1,
+	'Test::Deep' => 1,
+        'Test::More' => 1,
     },
     PREREQ_PM => {
         #'ABC'              => 1.6,
