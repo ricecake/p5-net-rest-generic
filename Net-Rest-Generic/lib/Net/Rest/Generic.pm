@@ -16,11 +16,11 @@ Net::Rest::Generic - A tool for generically interacting with restfull (or restli
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 SYNOPSIS
 

@@ -28,3 +28,6 @@ Revision history for Net-Rest-Generic
 
 0.09	2014-04-25
 	updated the makefile to include build necessities
+
+0.10	2014-04-25
+	updated the version
