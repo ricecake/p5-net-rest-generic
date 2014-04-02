@@ -26,8 +26,11 @@ Revision history for Net-Rest-Generic
 0.08	2013-12-02
 	changed clone() to cloneApi() and added http request hooks
 
-0.09	2014-04-25
+0.09	2014-03-25
 	updated the makefile to include build necessities
 
-0.10	2014-04-25
+0.10	2014-03-25
 	updated the version
+
+0.11	2014-04-01
+	adding missing deps
